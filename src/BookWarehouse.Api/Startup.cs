@@ -1,7 +1,10 @@
 using BookWarehouse.Api.Users;
 using BookWarehouse.Domain;
+using BookWarehouse.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,7 +27,21 @@ namespace BookWarehouse.Api
             services.AddScoped<IUserContext, AspNetUserContextAdapter>();
             services.AddScoped<Warehouse>();
 
+            var options = CreateOptions(Configuration);
+            services.AddScoped(p => new WarehouseContext(options));
+
+            services.AddScoped<IBookRepository, BookRepository>();
+
             services.AddControllers();
+        }
+
+        private DbContextOptions<WarehouseContext> CreateOptions(IConfiguration configuration)
+        {
+            var contextOptions = new DbContextOptionsBuilder<WarehouseContext>();
+
+            contextOptions.UseSqlServer(configuration["Database:ConnectionString"]);
+
+            return contextOptions.Options;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
