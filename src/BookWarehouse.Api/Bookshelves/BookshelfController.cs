@@ -2,7 +2,7 @@
 using BookWarehouse.Domain;
 using Microsoft.AspNetCore.Mvc;
 
-namespace BookWarehouse.Api.Bookshelves
+namespace BookWarehouse.Api.Books
 {
     [Route("[controller]")]
     [ApiController]

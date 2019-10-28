@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace BookWarehouse.Domain
+namespace BookWarehouse.Domain.Books
 {
     public interface IBookRepository
     {

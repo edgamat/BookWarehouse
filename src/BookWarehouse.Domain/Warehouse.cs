@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using BookWarehouse.Domain.Books;
 
 namespace BookWarehouse.Domain
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace BookWarehouse.Domain
+namespace BookWarehouse.Domain.Books
 {
     public class Book
     {

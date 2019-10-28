@@ -18,7 +18,7 @@ namespace BookWarehouse.Persistence
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            return new WarehouseContext(CreateOptions(configuration));
+            return new WarehouseContext(CreateOptions(configuration), EntityTypeConfigurations.All);
         }
 
         private static string GetRuntimePath()
@@ -31,11 +31,11 @@ namespace BookWarehouse.Persistence
 
         public static DbContextOptions<WarehouseContext> CreateOptions(IConfiguration configuration)
         {
-            if (configuration == null) 
+            if (configuration == null)
                 throw new ArgumentNullException(nameof(configuration));
 
             var contextOptions = new DbContextOptionsBuilder<WarehouseContext>();
-            
+
             contextOptions.UseSqlServer(configuration["Database:ConnectionString"]);
 
             return contextOptions.Options;

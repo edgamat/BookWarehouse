@@ -1,4 +1,5 @@
-﻿using BookWarehouse.Domain;
+﻿using System.Security.Claims;
+using BookWarehouse.Domain;
 using Microsoft.AspNetCore.Http;
 
 namespace BookWarehouse.Api.Users

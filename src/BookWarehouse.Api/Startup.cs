@@ -1,10 +1,12 @@
 using BookWarehouse.Api.Users;
+using BookWarehouse.Api.Utils;
 using BookWarehouse.Domain;
+using BookWarehouse.Domain.Books;
+using BookWarehouse.Domain.SharedKernel;
 using BookWarehouse.Persistence;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -25,14 +27,24 @@ namespace BookWarehouse.Api
         {
             services.AddHttpContextAccessor();
             services.AddScoped<IUserContext, AspNetUserContextAdapter>();
-            services.AddScoped<Warehouse>();
+
+            services.AddHandlers();
 
             var options = CreateOptions(Configuration);
-            services.AddScoped(p => new WarehouseContext(options));
+            var configurations = EntityTypeConfigurations.All;
 
-            services.AddScoped<IBookRepository, BookRepository>();
+            services.AddTransient(p => new WarehouseContext(options, configurations));
+            services.AddTransient<IBookRepository, BookRepository>();
 
-            services.AddControllers();
+            services.AddScoped<Warehouse>();
+            services.AddSingleton<Messages>();
+
+            services.AddRouting(options => { options.LowercaseUrls = true; });
+
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.IgnoreNullValues = true;
+            });
         }
 
         private DbContextOptions<WarehouseContext> CreateOptions(IConfiguration configuration)

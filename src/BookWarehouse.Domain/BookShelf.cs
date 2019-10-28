@@ -1,4 +1,6 @@
-﻿namespace BookWarehouse.Domain
+﻿using BookWarehouse.Domain.Books;
+
+namespace BookWarehouse.Domain
 {
     public class BookShelf
     {

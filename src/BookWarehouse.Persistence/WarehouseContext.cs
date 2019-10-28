@@ -8,19 +8,20 @@ namespace BookWarehouse.Persistence
 {
     public class WarehouseContext : DbContext
     {
-        public WarehouseContext(DbContextOptions options) : base(options)
+        private readonly IEntityTypeConfiguration[] _configurations;
+
+        public WarehouseContext(DbContextOptions options, IEntityTypeConfiguration[] configurations) : base(options)
         {
+            _configurations = configurations;
         }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "<Pending>")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Design", "CA1062:Validate arguments of public methods", Justification = "Part of EF Core")]
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            _ = modelBuilder.Entity<Book>(entity =>
-              {
-                  entity.Property(e => e.ISBN).HasMaxLength(20);
-                  entity.Property(e => e.Title).HasMaxLength(100);
-                  entity.Property(e => e.Author).HasMaxLength(50);
-              });
+            foreach (var map in _configurations)
+            {
+                map.Configure(modelBuilder);
+            }
         }
     }
 }

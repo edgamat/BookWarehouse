@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BookWarehouse.Domain;
+using BookWarehouse.Domain.Books;
 
 namespace BookWarehouse.Persistence
 {
