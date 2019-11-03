@@ -33,11 +33,11 @@ namespace BookWarehouse.Api
             var options = CreateOptions(Configuration);
             var configurations = EntityTypeConfigurations.All;
 
-            services.AddTransient(p => new WarehouseContext(options, configurations));
-            services.AddTransient<IBookRepository, BookRepository>();
+            services.AddScoped(p => new WarehouseContext(options, configurations));
+            services.AddScoped<IBookRepository, BookRepository>();
 
             services.AddScoped<Warehouse>();
-            services.AddSingleton<Messages>();
+            services.AddScoped<Messages>();
 
             services.AddRouting(options => { options.LowercaseUrls = true; });
 
